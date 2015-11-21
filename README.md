@@ -16,7 +16,7 @@ Also thanks to beware & Duo, for helping me with my initial GB development.<br /
 I used the GBDEV wiki to help get me started: http://gbdev.gg8.se/wiki<br />
 <br />
 Howto Compile:<br />
-All the code compiles into a single binary (ROMNAME.nes) file.<br />
+All the code compiles into a single binary (ROMNAME.gb) file.<br />
 Using bass Run: make.bat<br />
 <br />
 Howto Run:<br />
