@@ -20,14 +20,12 @@ seek($0150); Start:
   di // Disable Interrupts
 
 // Turn Off LCD
-ld bc,LCDC_REG // BC = LCD Control Register ($FF40)
-ld a,0 // A = 0
-ld (bc),a // LCD Control Register = A
+xor a // A = 0
+ld ($FF00+$40),a // LCD Control Register ($FF40) = A
 
 // Load BG Palette
-ld bc,BGP_REG // BC = BG Palette Data Register ($FF47)
 ld a,%00001100 // A = BG Palette (White/Black)
-ld (bc),a // LCD Control Register = A
+ld ($FF00+$47),a // BG Palette Data Register ($FF47) = A
 
 // Copy BG Tile Data To VRAM
 ld bc,CHAR_RAM // BC = CHAR RAM 16-Bit Address ($8000)
@@ -72,9 +70,8 @@ CopyText:
   jr nz,CopyText // IF (Text Count != 0) Copy Text
 
 // Turn On LCD & BG, BG Tile Data Select = $8000
-ld bc,LCDC_REG // BC = LCD Control Register ($FF40)
 ld a,%10010001 // A = BG On Bit 0, BG Tile Data Select = $8000 Bit 4, LCD On Bit 7
-ld (bc),a // LCD Control Register = A
+ld ($FF00+$40),a // LCD Control Register ($FF40) = A
 
 Loop:
   jr Loop
