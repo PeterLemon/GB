@@ -28,45 +28,42 @@ ld a,%00001100 // A = BG Palette (White/Black)
 ldh (BGP_REG),a // BG Palette Data Register ($FF47) = A
 
 // Copy BG Tile Data To VRAM
-ld bc,CHAR_RAM // BC = CHAR RAM 16-Bit Address ($8000)
-ld de,BGTILES  // DE = BGTILES 16-Bit Address
-ld l,$7E // L = Char Count (# Of Chars To Copy)
+ld bc,BGTILES  // BC = BGTILES 16-Bit Address
+ld hl,CHAR_RAM // HL = CHAR RAM 16-Bit Address ($8000)
+ld d,$7E // D = Char Count (# Of Chars To Copy)
 LoopChars:
-  ld h,16  // H = Char Size
+  ld e,16  // E = Char Size
   CopyChar:
-    ld a,(de) // A = Tile Byte
-    inc de    // BGTILES++
-    ld (bc),a // CHAR RAM = A
-    inc bc    // CHAR RAM++
-    dec h // Char Size--
+    ld a,(bc) // A = Tile Byte
+    inc bc    // BGTILES++
+    ld (hl+),a // CHAR RAM = A, CHAR RAM++
+    dec e          // Char Size--
     jr nz,CopyChar // IF (Char Size != 0) Copy Char
-    dec l // Char Count--
+    dec d           // Char Count--
     jr nz,LoopChars // IF (Char Count != 0) Loop Chars
 
 // Clear BG Map Data VRAM To Space " " Character ($20)
-ld bc,BG1_RAM // BC = BG1 RAM 16-Bit Map Address ($9800)
+ld hl,BG1_RAM // HL = BG1 RAM 16-Bit Map Address ($9800)
 ld a,$20 // A = Space " " Character ($20)
-ld d,$04 // D = Copy Count (# Of Times To Copy)
+ld b,$04 // B = Copy Count (# Of Times To Copy)
 LoopMap:
-  ld e,00  // e = Copy Size (256 Bytes)
+  ld c,00  // C = Copy Size (256 Bytes)
   CopyMap:
-    ld (bc),a // BG1 RAM = A
-    inc bc    // BG1 RAM++
-    dec e // Copy Size--
+    ld (hl+),a // BG1 RAM = A, BG1 RAM++
+    dec c         // Copy Size--
     jr nz,CopyMap // IF (Copy Size != 0) Copy Map
-    dec d // Copy Count--
+    dec b         // Copy Count--
     jr nz,LoopMap // IF (Copy Count != 0) Loop Map
 
 // Print Text Characters To BG Map VRAM
-ld bc,BG1_RAM+$84 // BC = BG1 RAM 16-Bit Map Address ($9800 + $84)
-ld de,HELLOWORLD  // DE = Text 16-Bit Address
-ld l,13 // L = Text Count (# Of Text Chars To Copy)
+ld bc,HELLOWORLD  // BC = Text 16-Bit Address
+ld hl,BG1_RAM+$84 // HL = BG1 RAM 16-Bit Map Address ($9800 + $84)
+ld d,13 // D = Text Count (# Of Text Chars To Copy)
 CopyText:
-  ld a,(de) // A = Text ASCII Byte
-  inc de    // Text++
-  ld (bc),a // BG1 RAM = A
-  inc bc    // BG1 RAM++
-  dec l // Text Count--
+  ld a,(bc)  // A = Text ASCII Byte
+  inc bc     // Text++
+  ld (hl+),a // BG1 RAM = A, BG1 RAM++
+  dec d          // Text Count--
   jr nz,CopyText // IF (Text Count != 0) Copy Text
 
 // Turn On LCD & BG, BG Tile Data Select = $8000
