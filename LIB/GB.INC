@@ -1,12 +1,11 @@
-//============ (Key: R=Read, W=Write, D=Double Read/Write) 
-// GB Include
-//============
+//========= (Key: R=Read, W=Write, D=Double Read/Write) 
+// GameBoy
+//=========
 // Memory Map
 // $0000..$00FF - Interrupt Vectors & RST # Vectors                                                               256B/R
 // $0000..$00FF - DMG Boot Code (Only At Initialization)                                                          256B/R
 
-// $0100..$014F - Cartridge Header                                                                                 80B/R
-
+constant CART_HEAD($0100)   // $0100..$014F - Cartridge Header                                                     80B/R
 constant MBC_TYPE($0147)    // $0147 - Memory Bank Controller Type                                                  1B/R
 
 constant CART_ROM0($0150)   // $0150..$3FFF - User Program Area - Bank 0 (Fixed)                                16048B/R
@@ -66,7 +65,7 @@ constant NR50_REG($FF24) // NR50: Channel Control     (SO1 VOUT 0..2, VIN SO1 3,
 constant NR51_REG($FF25) // NR51: Sound Output        (Sound 1..4 To SO1 0..3, Sound 1..4 To SO2 4..7)              1B/RW
 constant NR52_REG($FF26) // NR52: Sound On/Off        (Channel #1..4 On/Off 0..3, All Channels On/Off 7)            1B/RW
 
-constant AUD3WAVERAM($FF30) // $FF30..$FF3F - AUD3WAVERAM: Wave Data (RW, Sound sample RAM - 16 bytes) |  S
+constant AUD3WAVERAM($FF30) // $FF30..$FF3F - AUD3WAVERAM: Wave Data (Sound Sample RAM)                            16B/RW
 
 // PPU Picture Processing Unit Ports
 constant LCDC_REG($FF40) // LCDC: LCD Control     (BG 0, Obj 1, OBJ Size 2, BG ADDR 3..4, WIN 5, WIN ADDR 6, LCD 7) 1B/RW
