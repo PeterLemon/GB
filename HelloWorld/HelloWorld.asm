@@ -30,17 +30,17 @@ ldh (BGP_REG),a // BG Palette Data Register ($FF47) = A
 // Copy BG Tile Data To VRAM
 ld bc,BGTILES  // BC = BGTILES 16-Bit Address
 ld hl,CHAR_RAM // HL = CHAR RAM 16-Bit Address ($8000)
-ld d,$7E // D = Char Count (# Of Chars To Copy)
-LoopChars:
-  ld e,16 // E = Char Size
-  CopyChar:
+ld d,$7E // D = Tile Count (# Of Tiles To Copy)
+LoopTile:
+  ld e,16 // E = Tile Size
+  CopyTile:
     ld a,(bc) // A = Tile Byte
     inc bc    // BGTILES++
     ld (hl+),a // CHAR RAM = A, CHAR RAM++
-    dec e          // Char Size--
-    jr nz,CopyChar // IF (Char Size != 0) Copy Char
-    dec d           // Char Count--
-    jr nz,LoopChars // IF (Char Count != 0) Loop Chars
+    dec e          // Tile Size--
+    jr nz,CopyTile // IF (Tile Size != 0) Copy Tile
+    dec d          // Tile Count--
+    jr nz,LoopTile // IF (Tile Count != 0) Loop Tile
 
 // Clear BG Map Data VRAM To Space " " Character ($20)
 ld hl,BG1_RAM // HL = BG1 RAM 16-Bit Map Address ($9800)
