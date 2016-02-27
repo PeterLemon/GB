@@ -32,7 +32,7 @@ ld bc,BGTILES  // BC = BGTILES 16-Bit Address
 ld hl,CHAR_RAM // HL = CHAR RAM 16-Bit Address ($8000)
 ld d,$7E // D = Char Count (# Of Chars To Copy)
 LoopChars:
-  ld e,16  // E = Char Size
+  ld e,16 // E = Char Size
   CopyChar:
     ld a,(bc) // A = Tile Byte
     inc bc    // BGTILES++
@@ -47,7 +47,7 @@ ld hl,BG1_RAM // HL = BG1 RAM 16-Bit Map Address ($9800)
 ld a,$20 // A = Space " " Character ($20)
 ld b,$04 // B = Copy Count (# Of Times To Copy)
 LoopMap:
-  ld c,00  // C = Copy Size (256 Bytes)
+  ld c,00 // C = Copy Size (256 Bytes)
   CopyMap:
     ld (hl+),a // BG1 RAM = A, BG1 RAM++
     dec c         // Copy Size--
