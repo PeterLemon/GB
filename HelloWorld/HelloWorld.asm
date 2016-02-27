@@ -45,9 +45,9 @@ LoopChars:
 // Clear BG Map Data VRAM To Space " " Character ($20)
 ld hl,BG1_RAM // HL = BG1 RAM 16-Bit Map Address ($9800)
 ld a,$20 // A = Space " " Character ($20)
-ld b,$04 // B = Copy Count (# Of Times To Copy)
+ld b,4   // B = Copy Count (# Of Times To Copy)
 LoopMap:
-  ld c,00 // C = Copy Size (256 Bytes)
+  ld c,0 // C = Copy Size (256 Bytes)
   CopyMap:
     ld (hl+),a // BG1 RAM = A, BG1 RAM++
     dec c         // Copy Size--
