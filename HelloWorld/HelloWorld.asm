@@ -78,4 +78,3 @@ HELLOWORLD:
 
 BGTILES:
   include "Font8x8.asm" // Include BG 2BPP 8x8 Tile Font Character Data (2032 Bytes)
-BGTILESEnd:
