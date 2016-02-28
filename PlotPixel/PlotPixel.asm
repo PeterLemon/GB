@@ -36,7 +36,7 @@ LoopTile:
   ld e,16 // E = Tile Size
   CopyTile:
     ld a,(bc) // A = Tile Byte
-    inc bc    // BGTILES++
+    inc bc    // BG Tiles++
     ld (hl+),a // CHAR RAM = A, CHAR RAM++
     dec e          // Tile Size--
     jr nz,CopyTile // IF (Tile Size != 0) Copy Tile
