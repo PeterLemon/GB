@@ -11,8 +11,8 @@ macro seek(variable offset) {
   base offset
 }
 
-// BANK 0..1 (32KB)
-seek($0000); fill $8000 // Fill Bank 0..1 With Zero Bytes
+// BANK 0 (32KB)
+seek($0000); fill $8000 // Fill Bank 0 With Zero Bytes
 include "LIB\GB_HEADER.ASM" // Include Header
 include "LIB\GB.INC" // Include GB Definitions
 
@@ -28,14 +28,14 @@ ld a,%00001100 // A = BG Palette (White/Black)
 ldh (BGP_REG),a // BG Palette Data Register ($FF47) = A
 
 // Copy BG Tile Data To VRAM
-ld bc,BGTILES  // BC = BGTILES 16-Bit Address
+ld bc,BGTiles  // BC = BG Tiles 16-Bit Address
 ld hl,CHAR_RAM // HL = CHAR RAM 16-Bit Address ($8000)
 ld d,$7E // D = Tile Count (# Of Tiles To Copy)
 LoopTile:
   ld e,16 // E = Tile Size
   CopyTile:
     ld a,(bc) // A = Tile Byte
-    inc bc    // BGTILES++
+    inc bc    // BG TILES++
     ld (hl+),a // CHAR RAM = A, CHAR RAM++
     dec e          // Tile Size--
     jr nz,CopyTile // IF (Tile Size != 0) Copy Tile
@@ -76,5 +76,5 @@ Loop:
 HELLOWORLD:
   db "Hello, World!" // Hello World Text
 
-BGTILES:
+BGTiles:
   include "Font8x8.asm" // Include BG 2BPP 8x8 Tile Font Character Data (2032 Bytes)
