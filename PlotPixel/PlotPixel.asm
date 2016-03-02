@@ -14,7 +14,7 @@ macro seek(variable offset) {
 
 // BANK 0 (32KB)
 seek($0000); fill $8000 // Fill Bank 0 With Zero Bytes
-include "LIB\GB_HEADER.ASM" // Include Header
+include "LIB\GB_HEADER.ASM" // Include Header & Vector Table
 include "LIB\GB.INC" // Include GB Definitions
 
 seek($0150); Start:
@@ -131,14 +131,17 @@ ld ($FF00 + $80),a // Load X To Memory Address $FF80
 ld a,60 // A = Plot Y
 ld ($FF00 + $81),a // Load Y To Memory Address $FF81
 
+ld a,1 // Enable V-Blank Interrupt
+ld ($FF00 + $FF),a // Load A To Interrupt Enable Flag Register ($FFFF)
+ei // Enable Interrupts
+
+
 Refresh:
-  // Wait V-Blank
-  WaitVBlank:
-    ld a,($FF00 + $44) // A = LCDC Y-Coord ($FF44)
-    cp 144  // Compare Y-Coord To 144
-    jr nz,WaitVBlank // IF (Y-Coord != 144) WaitVBlank
+  halt // Power Down CPU Until An Interrupt Occurs
+  jr Refresh
 
 
+VBlankInterrupt:
   // Plot Pixel
   ld a,($FF00 + $80) // A = X ($FF80)
   ld c,a // C = X
@@ -227,7 +230,8 @@ Refresh:
     dec (hl)     // ELSE Y--
   JoyEnd:
 
-  jp Refresh
+  reti // Return From Interrupt
+
 
 BGTiles:
   db %11111111 // Include BG 2BPP 8x8 BG Tile Data (16 Bytes)

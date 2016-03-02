@@ -1,6 +1,60 @@
 //===========
 // GB Header
 //===========
+// RESTART VECTORS
+// Restart $00 Vector ($0000..$0007)
+seek($0000)
+dw $0000
+
+// Restart $08 Vector ($0008..$000F)
+seek($0008)
+dw $0000
+
+// Restart $10 Vector ($0010..$0017)
+seek($0010)
+dw $0000
+
+// Restart $18 Vector ($0018..$001F)
+seek($0018)
+dw $0000
+
+// Restart $20 Vector ($0020..$0027)
+seek($0020)
+dw $0000
+
+// Restart $28 Vector ($0028..$002F)
+seek($0028)
+dw $0000
+
+// Restart $30 Vector ($0030..$0037)
+seek($0030)
+dw $0000
+
+// Restart $38 Vector ($0038..$003F)
+seek($0038)
+dw $0000
+
+// INTERRUPT VECTORS
+// V-Blank  Interrupt Vector ($0040..$0047)
+seek($0040)
+jp VBlankInterrupt
+
+// LCD STAT Interrupt Vector ($0048..$004F)
+seek($0048)
+dw $0000
+
+// Timer    Interrupt Vector ($0050..$0057)
+seek($0050)
+dw $0000
+
+// Serial   Interrupt Vector ($0058..$005F)
+seek($0058)
+dw $0000
+
+// Joypad   Interrupt Vector ($0060..$0067)
+seek($0060)
+dw $0000
+
 // ENTRY POINT ($0100..$0103) 
 seek($0100)
 nop
