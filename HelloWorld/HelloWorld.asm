@@ -13,7 +13,7 @@ macro seek(variable offset) {
 
 // BANK 0 (32KB)
 seek($0000); fill $8000 // Fill Bank 0 With Zero Bytes
-include "LIB\GB_HEADER.ASM" // Include Header
+include "LIB\GB_HEADER.ASM" // Include Header & Vector Table
 include "LIB\GB.INC" // Include GB Definitions
 
 seek($0150); Start:
