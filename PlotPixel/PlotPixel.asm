@@ -126,13 +126,14 @@ ldh (LCDC_REG),a // LCD Control Register ($FF40) = A
 
 
 ld a,64 // A = Plot X
-ld ($FF00 + $80),a // Load X To Memory Address $FF80
+ldh ($FF80),a // Memory Address $FF80 = A
 
 ld a,60 // A = Plot Y
-ld ($FF00 + $81),a // Load Y To Memory Address $FF81
+ldh ($FF81),a // Memory Address $FF81 = A
 
-ld a,1 // Enable V-Blank Interrupt
-ld ($FF00 + $FF),a // Load A To Interrupt Enable Flag Register ($FFFF)
+ld a,%00000001 // Enable V-Blank Interrupt
+ldh (IE_REG),a // Interrupt Enable Flag Register ($FFFF) = A
+
 ei // Enable Interrupts
 
 
@@ -143,7 +144,7 @@ Refresh:
 
 VBlankInterrupt:
   // Plot Pixel
-  ld a,($FF00 + $80) // A = X ($FF80)
+  ldh a,($FF80) // A = X ($FF80)
   ld c,a // C = X
 
   and 7 // X &= 7
@@ -155,7 +156,7 @@ VBlankInterrupt:
   add hl,de // HL += (X & 7) * 4
   push hl // Push HL To Stack (Plot Set Bit Return Offset)
 
-  ld a,($FF00 + $81) // A = Y ($FF81)
+  ldh a,($FF81) // A = Y ($FF81)
   ld b,a // B = Y
   sla c  // X *= 2 (BC = Offset)
   ld hl,PlotTable // HL = Plot Table 16-Bit Address
