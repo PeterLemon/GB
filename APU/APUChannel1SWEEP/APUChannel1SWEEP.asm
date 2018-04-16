@@ -19,7 +19,7 @@ seek($0150); Start:
 GB_APU_INIT() // Run GB APU Initialisation Routine
 
 // Setup Channel 1
-ld a,%01110111   // Frequency Sweep: Time = 0 (Bit 4..6), Direction = Increase (Bit 3), Shift = Disable (Bit 0..2)
+ld a,%01110111   // Frequency Sweep: Time = 7 (54.7ms) (Bit 4..6), Direction = Increase (Bit 3), Shift = 7 (Bit 0..2)
 ldh (NR10_REG),a // Store Channel 1: Frequency Sweep ($FF10) = A
 ld a,%11000000   // Wave Duty / Sound Length: Wave Duty = 75% (Bit 6..7), Sound Length = 0 (Bit 0..5)
 ldh (NR11_REG),a // Store Channel 1: Wave Duty / Sound Length ($FF11) = A
@@ -40,15 +40,15 @@ Refresh:
 
   inc d // VSYNC Count++
 
-  ld a,d
-  and $1F
+  ld a,d // A = VSYNC Count
+  and $1F // VSYNC Count &= $1F
   jr nz,NoChange
-  ld d,a
+  ld d,a // D = VSYNC Count
 
-  ld hl,NR10_REG // HL = Channel 1: Frequency Sweep ($FF10)
-  ld a,(hl)
+  ld hl,NR10_REG // HL = Channel 1: Frequency Sweep Address ($FF10)
+  ld a,(hl) // A = Channel 1: Frequency Sweep ($FF10)
   xor %00001000 // Direction = Decrease/Increase (Bit 3) 
-  ld (hl),a
+  ld (hl),a // Store Channel 1: Frequency Sweep ($FF10)
 
 NoChange:
   jr Refresh
