@@ -64,7 +64,7 @@ ldh (AUD3WAVERAM+15),a // Store Channel 3: Wave Pattern RAM ($FF3F) = A
 ld a,0           // Sound Length: Sound Length = 0 (Bit 0..5)
 ldh (NR41_REG),a // Store Channel 4: Sound Length ($FF20) = A
 ld a,%11110001   // Volume Envelope: Initial Value = 15 (Bit 4..7), Direction = Decrease (Bit 3), Sweep = 1 (Bit 0..2)
-ldh (NR42_REG),a // Store Channel 2: Volume Envelope ($FF21) = A
+ldh (NR42_REG),a // Store Channel 4: Volume Envelope ($FF21) = A
 
 ld a,%00000001 // Enable V-Blank Interrupt
 ldh (IE_REG),a // Interrupt Enable Flag Register ($FFFF) = A
