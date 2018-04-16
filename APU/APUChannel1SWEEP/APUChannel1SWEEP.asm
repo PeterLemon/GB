@@ -19,7 +19,7 @@ seek($0150); Start:
 GB_APU_INIT() // Run GB APU Initialisation Routine
 
 // Setup Channel 1
-ld a,%01110111   // Frequency Sweep: Time = 7 (54.7ms) (Bit 4..6), Direction = Increase (Bit 3), Shift = 7 (Bit 0..2)
+ld a,%00110111   // Frequency Sweep: Time = 3 (23.4ms) (Bit 4..6), Direction = Increase (Bit 3), Shift = 7 (Bit 0..2)
 ldh (NR10_REG),a // Store Channel 1: Frequency Sweep ($FF10) = A
 ld a,%11000000   // Wave Duty / Sound Length: Wave Duty = 75% (Bit 6..7), Sound Length = 0 (Bit 0..5)
 ldh (NR11_REG),a // Store Channel 1: Wave Duty / Sound Length ($FF11) = A
@@ -41,7 +41,7 @@ Refresh:
   inc d // VSYNC Count++
 
   ld a,d // A = VSYNC Count
-  and $1F // VSYNC Count &= $1F
+  and $07 // VSYNC Count &= $07
   jr nz,NoChange
   ld d,a // D = VSYNC Count
 
@@ -49,6 +49,15 @@ Refresh:
   ld a,(hl) // A = Channel 1: Frequency Sweep ($FF10)
   xor %00001000 // Direction = Decrease/Increase (Bit 3) 
   ld (hl),a // Store Channel 1: Frequency Sweep ($FF10)
+
+  bit 3,a // Test Direction = Decrease/Increase (Bit 3)
+  jr nz,NoChange // IF (Direction = Decrease) No Change
+
+  // ELSE Restart Sound
+  ld a,%00010000   // Channel 1: Frequency Lo
+  ldh (NR13_REG),a // Store Channel 1: Frequency Lo ($FF13) = A
+  ld a,%10000100   // Channel 1: Set Restart Flag (Bit 7), Reset Length Flag (Bit 6), Frequency Hi (Bits 0..3)
+  ldh (NR14_REG),a // Store Channel 1: Restart / Length Flag, Frequency Hi ($FF14) = A
 
 NoChange:
   jr Refresh
