@@ -1,3 +1,0 @@
-1. Fix low byte of End Offset Check, in case a non Zero destination is used
-2. Try to optimize 4*SRL
-3. Try to fix double "srl c // Shift C To Next Flag Data Block Type"
