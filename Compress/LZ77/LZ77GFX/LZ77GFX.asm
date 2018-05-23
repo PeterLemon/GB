@@ -97,8 +97,8 @@ LoopMap:
 
 // Print Text Characters To BG Map VRAM
 ld bc,HELLOWORLD  // BC = Text 16-Bit Address
-ld hl,BG1_RAM+$84 // HL = BG1 RAM 16-Bit Map Address ($9800 + $84)
-ld d,13 // D = Text Count (# Of Text Chars To Copy)
+ld hl,BG1_RAM+$81 // HL = BG1 RAM 16-Bit Map Address ($9800 + $81)
+ld d,18 // D = Text Count (# Of Text Chars To Copy)
 CopyText:
   ld a,(bc)  // A = Text ASCII Byte
   inc bc     // Text++
@@ -120,6 +120,6 @@ VBlankInterrupt:
   reti // Return From Interrupt
 
 HELLOWORLD:
-  db "Hello, World!" // Hello World Text
+  db "LZSS data decoded!" // Hello World Text
 
 insert BGTiles, "BG.lz" // Include LZ Compressed BG 2BPP 8x8 Tile Font Character Data (720 Bytes)
